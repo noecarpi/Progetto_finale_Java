@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{index :: head}"></head>
+
+<body>
+    
+    <div th:replace="~{index :: navbar}"></div>
+
+    <div class="container-fluid bck_custom">
+        <div class="row">
+
+            <div class="col-12 col-md-7 px-0">
+                <img th:src="@{/images/login.jpg}" class="auth_img" alt="immagine pagina registrazione">
+            </div>
+
+            <div class="col-12 col-md-5 pe-0 ps-3 pt-5">
+
+                <div class="bg-p ps-3 new_custom">
+                    <h1 class=" pt-3 text-s title-c">Login!</h1>
+                </div>
+                <div th:if="${param.error}" >
+                    <div class="alert alert-danger">
+                        Invalid Email or Password
+                    </div>
+                </div>
+                <div th:if="${param.logout}" >
+                    <div class="alert alert-success">
+                        You have been logged out
+                    </div>
+                </div>
+                
+                <div class="pt-5 d-flex flex-column align-items-center">
+                    <form method="POST" role="form" th:action="@{/login}" th:object="${user}" class="bck_form p-5 w-75">
+                        <div class="mb-3">
+                            <label for="email" class="form-label bg-p text-s p-2">Email</label>
+                            <input type="email" class="form-control w-75" id="email" name="email" placeholder="Enter email">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label bg-p text-s p-2">Password</label>
+                            <input type="password" class="form-control w-75" id="password" name="password" placeholder="Enter password">
+                        </div>
+
+
+                        <button type="submit" class="btn_custom text-white">Login</button>
+                        <p class=" mt-4">Not registered yet? <a th:href="@{/register}">Register here!</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{index :: footer}"></div>
+
+    <script th:replace="~{index :: bootstrapScript}"></script>
+    <script th:replace="~{index :: fontawesome}"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{index :: head}"></head>
+
+<body>
+    
+    <div th:replace="~{index :: navbar}"></div>
+
+    <header class="header_careers bg-a d-flex align-items-center justify-content-center">
+        <h1 class="display-1 fw-bold text-s">Dashboard ADMIN</h1>
+    </header>
+
+    <div class="container-fluid bck_custom">
+        <div class="row ps-3 pt-3">
+
+            <div class="col-12 pt-3 bg-p ps-5 new_custom">
+                <h2 class="text-s fw-semibold title-c" th:text="${title}"></h2>
+            </div>
+
+            <div class="row mx-5 justify-content-center">
+                <div class="col-12 col-lg-6 p-4 bg-white mt-4 mb-4 border_custom d-flex flex-column justify-content-center">
+                    <div class="text-center bg-white">
+                    <h2 th:text="${request.user.username}"></h2>
+                    <h5 th:text="${request.role.name}"></h5>
+                    <p th:text="${request.body}"></p>
+
+                    <div class="d-flex justify-content-center mb-2">
+                        <form th:action="@{/operations/career/request/accept/{id}(id=${request.id})}" method="post">
+                            <button type="submit" class="btn_custom text-white m-2">Accept</button>
+                        </form>
+                        <form th:action="@{/operations/career/request/reject/{id}(id=${request.id})}" method="post">
+                            <button type="submit" class="btn_custom_primary text-white m-2">Reject</button>
+                        </form>
+                    </div>
+                    <a th:href="@{/admin/dashboard}" class="btn_custom_secondary">Go Back</a>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+    <div th:replace="~{index :: footer}"></div>
+
+    <script th:replace="~{index :: bootstrapScript}"></script>
+    <script th:replace="~{index :: fontawesome}"></script>
+</body>
+</html>

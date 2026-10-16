@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- fragment head -->
+<head th:fregment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${title}">title</title>
+
+    <!-- bootstrap css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- my css -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <!-- google fonsts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Acme&family=Cause:wght@100..900&family=Englebert&family=Mouse+Memoirs&family=Ranchers&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <!-- navbar -->
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg sticky-top bg-p"> 
+        <div class="container-fluid">
+            <a th:href="@{/}">
+                <img th:src="@{/images/logo.png}" height="50" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/}">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/operations/career/request}">Work with us</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/articles}">Articles</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categories
+                    </a>
+                    <ul class="dropdown-menu bg-p">
+                        <li th:each="category : ${categories}" >
+                            <a th:text="${category.name}" class="dropdown-item dd_custom" th:href="@{/categories/search/{id}(id=${category.id})}"></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <!-- <a class="nav-link dropdown-toggle" href="#" sec:authorize="isAuthenticated()" th:text="'Hello, '+ ${#authentication.principal.fullname}+ ' - '+ ${#authentication.principal.authorities[0].authority.replace('ROLE_', '')}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        ciao utente
+                    </a> -->
+                    <a class="nav-link dropdown-toggle" href="#" sec:authorize="isAuthenticated()" th:text="'Hello, '+ ${#authentication.principal.fullname}+ '!'" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        ciao utente
+                    </a>
+                    <a class="nav-link dropdown-toggle" href="#" sec:authorize="isAnonymous" role="button" data-bs-toggle="dropdown"  aria-expanded="false">
+                        Hello, guest!
+                    </a>
+                    <ul class="dropdown-menu bg-p">
+                        <li sec:authorize="isAnonymous"><a class="dropdown-item dd_custom" th:href="@{/login}">Login</a></li>
+                        <li sec:authorize="isAnonymous"><a class="dropdown-item dd_custom" th:href="@{/register}">Register</a></li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')" class=" dash-position">
+                            <a class="dropdown-item dd_custom" th:href="@{/admin/dashboard}">Dashboard admin</a>
+                            <div class="mt-1 iterator_custom" th:if="${careerRequests > 0}">
+                                <span class="bagde rounded-pill text-white px-1" th:text="${careerRequests}"></span>
+                            </div>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li sec:authorize="hasRole('ROLE_REVISOR')" class=" dash-position">
+                            <a class="dropdown-item dd_custom" th:href="@{/revisor/dashboard}">Dashboard revisor</a>
+                            <div class="mt-1 iterator_custom" th:if="${articlesToBeRevised > 0}">
+                                <span class="bagde rounded-pill text-white px-1" th:text="${articlesToBeRevised}"></span>
+                            </div>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li sec:authorize="hasRole('ROLE_WRITER')" >
+                            <a class="dropdown-item dd_custom" th:href="@{/writer/dashboard}">Dashboard writer</a>
+                            <a class="dropdown-item dd_custom" th:href="@{/articles/create}">Crea articolo</a>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li sec:authorize="isAuthenticated"><a class="dropdown-item dd_custom" th:href="@{/logout}" >Logout</a></li>
+
+                    </ul>
+                </li>
+
+                <form class="d-flex" role="search" th:action="@{/articles/search}" method="GET">
+                    <input class="form-control me-2" type="search" name="keyword" placeholder="Search" aria-label="Search"/>
+                    <button class="btn_custom text-white mt-0" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- footer -->
+    <footer th:fragment="footer" class="text-center bg-p text-s">
+    <div class="container-fluid pt-4">
+        <section class="my-4">
+            <div class="row">
+
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <img th:src="@{/images/logo.png}" height="100" alt="Logo">
+                </div>
+
+
+                <!--Grid column-->
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h4 class="fw-bold">About</h4>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                        <a class="a_social" href="#!">Q&A</a>
+                        </li>
+                        <li>
+                        <a class="a_social" href="#!">Contattaci</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h4 class="fw-bold">Policy</h4>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a class="a_social" href="#!">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a class="a_social" href="#!">Terms of Service</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-lg-3 ms-auto col-md-6 mb-4 mb-md-0">
+                    <h4 class="fw-bold">Socials</h4>
+                        <!-- Facebook -->
+                        <a data-mdb-ripple-init class="btn btn-outline btn-floating a_social m-1" href="#!" role="button"
+                            ><i class="fab fa-facebook-f"></i
+                        ></a>
+
+                        <!-- Twitter -->
+                        <a data-mdb-ripple-init class="btn btn-outline btn-floating a_social m-1" href="#!" role="button"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+
+                        <!-- Instagram -->
+                        <a data-mdb-ripple-init class="btn btn-outline btn-floating a_social m-1" href="#!" role="button"
+                            ><i class="fab fa-instagram"></i
+                        ></a>
+
+                </div>
+                <!--Grid column-->
+            </div>
+        <!--Grid row-->
+        </section>
+    </div>
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2026 Copyright:
+    <a class="text-body text-s" href="#">theAulabChronicle.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+
+    <!-- bootstrap js fragment?-->
+    <script th:fragment="bootstrapScript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <!-- fontawesome -->
+    <script th:fragment="fontawesome" src="https://kit.fontawesome.com/53ca3faaef.js" crossorigin="anonymous"></script>
+</body>
+</html>

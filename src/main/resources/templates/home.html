@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{index :: head}"></head>
+
+<body>
+    
+    <div th:replace="~{index :: navbar}"></div>
+
+    <header class="header_home d-flex align-items-center justify-content-center">
+        <h1 class="display-1 fw-bold text-s title-c">The Aulab Chronicle</h1>
+    </header>
+
+    <div class="container-fluid bck_custom">
+
+        <div class="row">
+            <div th:if="${param.notAuthorized}">
+                <div class="m-3 w-auto alert alert-danger">
+                    Not authorized!
+                </div>
+            </div>
+
+            <div th:if="${successMessage}" class="m-3 w-auto alert alert-success">
+                <p class="m-0" th:text="${successMessage}"></p>
+            </div>
+
+            <div th:if="${errorMessage}" class="m-3 w-auto alert alert-danger">
+                <p class="m-0" th:text="${errorMessage}"></p>
+            </div>
+
+        </div>
+
+        <div th:if="${articles.size() > 0}">
+            <div class="row ps-4">
+    
+                <div class="col-12 pt-3 bg-p ps-5 my-3 new_custom">
+                    <h2 class="text-s fw-semibold title-c">Latest Articles</h2>
+                </div>
+    
+            </div>
+    
+            <div class="row">
+                <div class="pt-3">
+                    <div class="row ">
+                        <div th:each="article:${articles}" class="col-12 col-md-4 d-flex justify-content-center mb-3">
+                            <div class="card_custom">
+                                <div class="card_header mb-2">
+                                        <img th:if="${article.image != null}" th:src="${article.image.path}" class="card-img-top card_img" alt="article image">
+                                        <img th:unless="${article.image != null}" th:src="@{/images/no-image.png}" class="img-fluid" alt="no image">
+                                        <a th:href="@{/categories/search/{id}(id=${article.category.id})}" th:text="${article.category.name}" class="px-3 category_custom text-white"></a>
+                                </div>
+    
+                                <div class="card-body">
+                                    <h5 th:text="${article.title}" class="card-title title-c"></h5>
+                                    <p th:text="${article.subtitle}" class="card-text"></p>
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <p>Author: 
+                                            <a th:href="@{/search/{id}(id=${article.user.id})}" th:text="${article.user.username}" ></a>
+                                        </p>
+                                        <span class="card-text">Published at <span th:text="${#temporals.format(article.publishDate, 'dd/MM/yyyy')}"></span></span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <p class="text-muted fst-italic small"></p>
+                                        <a th:href="@{/articles/detail/{id}(id=${article.id})}" class="btn_custom_primary text-white">Learn more...</a>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center py-5">
+            <div class="col-10 d-flex flex-column justify-content-center align-items-center home_custom">
+                <h1 class="text-s fw-bold">Do you feel like something is missing?</h1>
+                <h1 class="text-s fw-bold">Be the one telling the news!</h1>
+
+                    <!-- <a class="home_anchor fw-bold display-3" href="{{route('article.create')}}">Write your first article!</a>
+
+                    <a class="home_anchor fw-bold display-3" href="{{route('careers')}}">Write your first article!</a> -->
+
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{index :: footer}"></div>
+
+    <script th:replace="~{index :: bootstrapScript}"></script>
+    <script th:replace="~{index :: fontawesome}"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{index :: head}"></head>
+
+<body>
+    
+    <div th:replace="~{index :: navbar}"></div>
+
+    <header class="header_create bg-a d-flex align-items-center justify-content-center">
+        <h1 class="display-1 fw-bold text-s">Create your article</h1>
+    </header>
+    <div class="container-fluid min-vh-100 bck_custom">
+        <div class="row">
+            <div class="col-md-8 pt-5 mx-auto pb-5">
+                <form class="bck_form p-4" th:action="@{/articles}" method="post" th:object="${article}" enctype="multipart/form-data">
+
+                    <div class="mb-3">
+                        <label for="articleTitle" class="form-label bg-p text-s p-2">Title</label>
+                        <input type="text" class="form-control" id="articleTitle" th:field="*{title}" placeholder="Insert title" >
+                        <p th:errors="*{title}" th:if="${#fields.hasErrors('title')}" class="text-danger"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subtitle" class="form-label bg-p text-s p-2">Subtitle</label>
+                        <input type="text" class="form-control" id="subtitle" th:field="*{subtitle}" placeholder="Insert subtitle">
+                        <p th:errors="*{subtitle}" th:if="${#fields.hasErrors('subtitle')}" class="text-danger"></p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label bg-p text-s p-2">Image</label>
+                        <input type="file" name="file" class="form-control w-auto" id="image">
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category" class="form-label bg-p text-s p-2">Category</label>
+                        <select class="form-control w-auto" id="category" th:field="*{category}">
+                            <option value="" disabled>Select Category</option>
+                                <option th:each="category:${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                            <p th:errors="*{category}" th:if="${#fields.hasErrors('category')}" class="text-danger"></p>
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="body" class="form-label bg-p text-s p-2">Article</label>
+                        <textarea class="form-control" id="body" th:field="*{body}" placeholder="Insert text" rows="10"></textarea>
+                        <p th:errors="*{body}" th:if="${#fields.hasErrors('body')}" class="text-danger"></p>
+                    </div>
+
+                    <button type="submit" class="btn_custom text-white">Create article</button>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{index :: footer}"></div>
+
+    <script th:replace="~{index :: bootstrapScript}"></script>
+    <script th:replace="~{index :: fontawesome}"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!-- modello da copiare per le pagine nuove -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{index :: head}"></head>
+
+<body>
+    
+    <div th:replace="~{index :: navbar}"></div>
+
+    <div class="container">
+        <h1>Benvenuto compa</h1>
+    </div>
+
+    <div th:replace="~{index :: footer}"></div>
+
+    <script th:replace="~{index :: bootstrapScript}"></script>
+    <script th:replace="~{index :: fontawesome}"></script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{index :: head}"></head>
+
+<body>
+    
+    <div th:replace="~{index :: navbar}"></div>
+
+            <header class="header_show bg-s d-flex align-items-center justify-content-center">
+            <h1 class="display-1 fw-bold text-a text-center p-1" th:text="${article.title}" ></h1>
+        </header>
+
+    <div class="container-fluid min-vh-95">
+        <div class="row justify-content-center">
+            <div th:if="${article.isAccepted}" class="col-md-2 bck_custom p-0">
+                <h3 class="text-s new_custom bg-p ps-3">Related articles</h3> 
+
+                <div th:each="article:${articles}" class="d-flex justify-content-center m-3">
+                    <div class="card_custom">
+                        <img th:if="${article.image != null}" th:src="${article.image.path}" class="card-img-top" alt="article image">
+                        <img th:unless="${article.image != null}" th:src="@{/images/no-image.png}" class="img-fluid" alt="no image"> 
+                        <div class="card-body">
+                            <h5 class="card-title title-c" th:text="${article.title}"></h5>
+                            <div class="mb-2">
+                                <a th:href="@{/articles/detail/{id}(id=${article.id})}" class="btn_custom_primary text-white">Learn more...</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-10 pb-3">
+                    <div class="float-md-end ms-md-4 mb-3 mt-3" style="width: 35vw;">
+                        
+                        <div th:if="${article.user.email == #authentication.name}">
+                            <div class="col-12 d-flex justify-content-evenly mb-4">
+                                <a th:href="@{/articles/edit/{id}(id=${article.id})}" class="btn_custom_secondary text-p fw-bold">
+                                    Edit</i>
+                                </a>
+                                <a th:href="@{/articles/delete/{id}(id=${article.id})}" class="btn_custom text-white">
+                                    Delete</i>
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <img th:if="${article.image != null}" th:src="${article.image.path}" class="img-fluid" alt="cover">
+                        <img th:unless="${article.image != null}" th:src="@{/images/no-image.png}" class="img-fluid" alt="cover">
+
+                        <div class="bg-a mt-2 p-1 d-flex justify-content-center">
+                            <a th:href="@{/categories/search/{id}(id=${article.category.id})}" th:text="${article.category.name}" class="text-s fw-bold"></a>
+                        </div>
+
+                    </div>
+
+                        <h3 th:text="${article.subtitle}" class="text-p"></h3>
+                        <p th:text="${article.body}"></p>
+
+                        <div class="d-flex pt-3">
+                            <h5 class="w-50 text-p"> Written by <a th:href="@{/search/{id}(id=${article.user.id})}" th:text="${article.user.username}"></a></h5>
+                            
+                            <h6 class="text-p">Published at <span th:text="${#temporals.format(article.publishDate, 'dd/MM/yyyy')}"></span></h6>
+                        </div>
+
+                        <div th:if="${article.isAccepted == null}" sec:authorize="hasRole('ROLE_REVISOR')"  class="container my-5">
+                            <div class="row">
+                                <div class="col-12 d-flex justify-content-evenly">
+                                    <form th:action="@{/articles/accept(action='accept', articleId=${article.id})}" method="POST">
+                                        <button type="submit" class="btn_custom_primary text-white">Accept</button>
+                                    </form>
+                                    <form th:action="@{/articles/accept(action='reject', articleId=${article.id})}" method="POST" class="ms-2">
+                                        <button type="submit" class="btn_custom text-white">Reject</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="d-flex justify-content-end">
+                            <a href="#" class="btn_custom_secondary mt-0" onclick="goBack()">Go back</a>
+                        </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div th:replace="~{index :: footer}"></div>
+
+    <script th:replace="~{index :: bootstrapScript}"></script>
+    <script th:replace="~{index :: fontawesome}"></script>
+    <script>
+        function goBack(){
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

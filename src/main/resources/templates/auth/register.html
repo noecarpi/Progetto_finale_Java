@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{index :: head}"></head>
+
+<body>
+    
+    <div th:replace="~{index :: navbar}"></div>
+
+    <div class="container-fluid bck_custom">
+        <div class="row">
+
+            <div class="col-12 col-md-7 px-0">
+                <img th:src="@{/images/register.jpg}" class="auth_img" alt="immagine pagina registrazione">
+            </div>
+
+            <div class="col-12 col-md-5 pe-0 ps-3 pt-4">
+
+                <div class="bg-p ps-3 new_custom">
+                    <h1 class=" pt-3 text-s title-c">Register!</h1>
+                </div>
+                <div th:if="${param.success}" >
+                    <div class="alert alert-info">
+                        You've successfully registered!
+                    </div>
+                </div>
+                
+                <div class="pt-4 d-flex flex-column align-items-center">
+                    <form method="POST" role="form" th:action="@{/register/save}" th:object="${user}" class="bck_form p-4 w-75">
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label bg-p text-s p-2">First Name</label>
+                            <input type="text" class="form-control w-75" id="firstName" name="firstName" th:field="*{firstName}" placeholder="Enter first name">
+                            <span th:errors="*{firstName}" class="text-danger" 
+                            th:if="${#fields.hasErrors('firstName')}"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label bg-p text-s p-2">Last Name</label>
+                            <input type="text" class="form-control w-75" id="lastName" name="lastName" th:field="*{lastName}" placeholder="Enter last name">
+                            <span th:errors="*{lastName}" class="text-danger" 
+                            th:if="${#fields.hasErrors('lastName')}"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label bg-p text-s p-2">Email</label>
+                            <input type="email" class="form-control w-75" id="email" name="email" th:field="*{email}" placeholder="Enter email">
+                            <span th:errors="*{email}" class="text-danger" 
+                            th:if="${#fields.hasErrors('email')}"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label bg-p text-s p-2">Password</label>
+                            <input type="password" class="form-control w-75" id="password" name="password" th:field="*{password}" placeholder="Enter password">
+                            <span th:errors="*{password}" class="text-danger" 
+                            th:if="${#fields.hasErrors('password')}"></span>
+                        </div>
+
+                        <button type="submit" class="btn_custom text-white">Register</button>
+                        <p class="mt-4">Already registered? <a th:href="@{/login}">Login here!</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{index :: footer}"></div>
+
+    <script th:replace="~{index :: bootstrapScript}"></script>
+    <script th:replace="~{index :: fontawesome}"></script>
+</body>
+</html>

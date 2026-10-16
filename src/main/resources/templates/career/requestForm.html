@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{index :: head}"></head>
+
+<body>
+    
+    <div th:replace="~{index :: navbar}"></div>
+
+    <header class="header_careers bg-a d-flex align-items-center justify-content-center">
+        <h1 class="display-1 fw-bold text-s title-c" th:text="${title}" ></h1>
+    </header>
+
+    <div class="container-fluid bck_custom">
+
+        <div class="row ps-4">
+            <div class="col-12 pt-3 bg-p ps-5 my-3 new_custom">
+                <h2 class="text-s fw-semibold title-c">Our team grows every day. Apply for you favourite role!</h2>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row mx-5">
+                <div class="col-12 col-lg-6 p-4 bg-white mt-4 mb-4 border_custom d-flex flex-column justify-content-center">
+                    <h2>Work as admin</h2>
+                    <p>If you choose the admin role, you'll manage work requests and you'll be able to add or edit categories.</p>
+                    
+                    <hr class="hr" />
+                    
+                    <h2>Work as revisor</h2>
+                    <p>If you choose the revisor role, you'll be the one chosing which articles can be published on our platform.</p>
+                    
+                    <hr class="hr" />
+                    
+                    <h2>Work as writer</h2>
+                    <p>If you choose the writer role, you'll write our next articles on the platform.</p>
+                </div>
+                
+                <div class="col-12 col-lg-6 mt-4 mb-4">
+                    <form th:action="@{/operations/career/request/save}" method="POST" th:object="${careerRequest}" enctype="multipart/form-data" class="bck_form p-4" >
+                        <div class="mb-3">
+                            <label for="role" class="form-label bg-p text-s p-2">Ruolo</label>
+                            <select class="form-control w-auto" id="category" th:field="*{role.id}">
+                                <option value="" disabled>Select role</option>
+                                <option th:each="role:${roles}" th:value="${role.id}" th:text="${#strings.substring(role.name, 5)}"></option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="message" class="form-label bg-p text-s p-2">Reason for request</label>
+                            <textarea class="form-control" id="message" th:field="*{body}" placeholder="Why do you want to join us?" cols="30" rows="7"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn_custom text-white">Send application</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{index :: footer}"></div>
+
+    <script th:replace="~{index :: bootstrapScript}"></script>
+    <script th:replace="~{index :: fontawesome}"></script>
+</body>
+</html>

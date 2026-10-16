@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{index :: head}"></head>
+
+<body>
+    
+    <div th:replace="~{index :: navbar}"></div>
+
+    <header class="header_careers bg-a d-flex align-items-center justify-content-center">
+        <h1 class="display-1 fw-bold text-s title-c"> Dashboard ADMIN</h1>
+    </header>
+
+    <div class="container-fluid bck_custom">
+
+        <div class="row ps-4">
+            <div class="col-12 pt-3 bg-p ps-5 my-3 new_custom">
+                <h2 class="text-s fw-semibold title-c" th:text="${title}"></h2>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row mx-5">
+                <div class="col-12 col-lg-6 p-4 bg-white mt-4 mb-4 border_custom d-flex flex-column justify-content-center">
+                    <h2>Existing categories</h2>
+                    <p th:each="category:${categories}" th:text="${category.name}"></p>
+                </div>
+                
+                <div class="col-12 col-lg-6 mt-4 mb-4">
+                    <form th:action="@{/categories/update/{id}(id=${category.id})}" method="POST" th:object="${category}" enctype="multipart/form-data" class="bck_form p-4" >
+                        
+                        <div class="mb-3">
+                            <label for="name" class="form-label bg-p text-s p-2">Category</label>
+                            <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Insert category name..."></input>
+                            <p th:errors="*{name}" th:if="${#fields.hasErrors('name')}" class="text-danger"></p>
+                        </div>
+                        
+                        <button type="submit" class="btn_custom text-white">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{index :: footer}"></div>
+
+    <script th:replace="~{index :: bootstrapScript}"></script>
+    <script th:replace="~{index :: fontawesome}"></script>
+</body>
+</html>

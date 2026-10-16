@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{index :: head}"></head>
+
+<body>
+    
+    <div th:replace="~{index :: navbar}"></div>
+
+    <header class="header_careers bg-a d-flex align-items-center justify-content-center">
+        <h1 class="display-1 fw-bold text-s">Dashboard ADMIN</h1>
+    </header>
+
+    <div class="container-fluid bck_custom">
+        <div class="row ps-3 pt-3">
+
+            <div class="col-12 pt-3 bg-p ps-5 new_custom">
+                <h2 class="text-s fw-semibold title-c">Pending applications</h2>
+            </div>
+            <div class="pt-3">
+                <table class="table border_custom">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="request:${requests}">
+                            <th scope="row" th:text="${request.id}"></th>
+                            <td th:text="${request.user.username}"></td>
+                            <td th:text="${request.role.name}"></td>
+
+                            <td>
+                                <a th:href="@{/operations/career/request/detail/{id}(id=${request.id})}" class="btn_custom_primary">
+                                    <i class="fa-solid fa-circle-info text-s"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-12 pt-3 bg-p ps-5 new_custom">
+                <h2 class="text-s fw-semibold title-c">Categories</h2>
+            </div>
+            <div class="pt-3">
+                <a th:href="@{/categories/create}" class="btn_custom m-2">
+                    <i class="fa-solid fa-plus text-s"></i>
+                </a>
+                <table class="table border_custom mt-2">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="category:${categories}">
+                            <th scope="row" th:text="${category.id}"></th>
+                            <td th:text="${category.name}"></td>
+
+                            <td>
+                                <a th:href="@{/categories/edit/{id}(id=${category.id})}" class="btn_custom_secondary m-2">
+                                    <i class="fa-solid fa-pencil text-p"></i>
+                                </a>
+                                <a th:href="@{/categories/delete/{id}(id=${category.id})}" class="btn_custom m-2">
+                                    <i class="fa-solid fa-trash text-s"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{index :: footer}"></div>
+
+    <script th:replace="~{index :: bootstrapScript}"></script>
+    <script th:replace="~{index :: fontawesome}"></script>
+</body>
+</html>

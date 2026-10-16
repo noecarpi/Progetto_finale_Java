@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{index :: head}"></head>
+<body>
+    
+    <div th:replace="~{index :: navbar}"></div>
+
+    <header class="header_careers bg-a d-flex align-items-center justify-content-center">
+        <h1 class="display-1 fw-bold text-s">Dashboard WRITER</h1>
+    </header>
+
+    <div class="container-fluid bck_custom">
+        <div class="row ps-3 pt-3">
+
+            <div class="col-12 pt-3 bg-p ps-5 new_custom">
+                <h2 class="text-s fw-semibold title-c">Your Articles</h2>
+            </div>
+            <div class="pt-3">
+                <table class="table border_custom">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Subtitle</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="article:${articles}">
+                            <th scope="row" th:text="${article.id}"></th>
+                            <td th:text="${article.title}"></td>
+                            <td th:text="${article.subtitle}"></td>
+                            <td th:if="${article.category}" th:text="${article.category.name}"></td>
+                            <td th:unless="${article.category}">No category</td>
+                            <td>
+                                <p th:if="${article.isAccepted == true}">
+                                    Accepted
+                                </p>
+
+                                <p th:if="${article.isAccepted == false}">
+                                    Rejected
+                                </p>
+
+                                <p th:if="${article.isAccepted == null}">
+                                    In review
+                                </p>
+                            </td>
+                            <td>
+                                <a th:href="@{/articles/detail/{id}(id=${article.id})}" class="btn_custom_primary">
+                                    <i class="fa-solid fa-circle-info text-s"></i>
+                                </a>
+                                <a th:href="@{/articles/edit/{id}(id=${article.id})}" class="btn_custom_secondary m-2">
+                                    <i class="fa-solid fa-pencil text-p"></i>
+                                </a>
+                                <a th:href="@{/articles/delete/{id}(id=${article.id})}" class="btn_custom m-2">
+                                    <i class="fa-solid fa-trash text-s"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{index :: footer}"></div>
+
+    <script th:replace="~{index :: bootstrapScript}"></script>
+    <script th:replace="~{index :: fontawesome}"></script>
+</body>
+</html>
