@@ -78,7 +78,10 @@ public class Article {
         if (title.equals(article.getTitle()) &&
             subtitle.equals(article.getSubtitle()) &&
             body.equals(article.getBody()) &&
-            category.getName().equals(article.getCategory().getName()) &&
+            java.util.Objects.equals(
+                category == null ? null : category.getName(),
+                article.getCategory() == null ? null : article.getCategory().getName()
+            ) &&
             java.util.Objects.equals(
                 image == null ? null : image.getPath(),
                 article.getImage() == null ? null : article.getImage().getPath())) {
