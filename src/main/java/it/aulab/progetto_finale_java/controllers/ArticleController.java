@@ -75,9 +75,17 @@ public class ArticleController {
         viewModel.addAttribute("article", article);
 
         // solo per fare funzionare la colonna related articles che ho voluto aggiungere nella pagina di detail
-        List<ArticleDto> articles = articleService.searchByCategory(
-            modelMapper.map(article.getCategory(), Category.class)
-        );
+        // List<ArticleDto> articles = articleService.searchByCategory(
+        //     modelMapper.map(article.getCategory(), Category.class)
+        // );
+
+        List<ArticleDto> articles = new ArrayList<>();
+
+        if (article.getCategory() != null) {
+            articles = articleService.searchByCategory(
+                modelMapper.map(article.getCategory(), Category.class)
+            );
+        }
 
         List<ArticleDto> relatedArticles = articles.stream()
             .filter(a -> Boolean.TRUE.equals(a.getIsAccepted()))

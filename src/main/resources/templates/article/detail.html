@@ -49,7 +49,7 @@
                         <img th:if="${article.image != null}" th:src="${article.image.path}" class="img-fluid" alt="cover">
                         <img th:unless="${article.image != null}" th:src="@{/images/no-image.png}" class="img-fluid" alt="cover">
 
-                        <div class="bg-a mt-2 p-1 d-flex justify-content-center">
+                        <div th:if="${article.category != null}" class="bg-a mt-2 p-1 d-flex justify-content-center">
                             <a th:href="@{/categories/search/{id}(id=${article.category.id})}" th:text="${article.category.name}" class="text-s fw-bold"></a>
                         </div>
 

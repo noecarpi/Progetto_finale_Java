@@ -232,6 +232,15 @@ a:hover {
     position: relative;
 }
 
+.no_category{
+    z-index: 2;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+
+    background-color: rgba(128, 128, 128, 0.616);
+}
+
 .category_custom {
     z-index: 2;
     position: absolute;

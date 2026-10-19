@@ -18,7 +18,8 @@
                     <div class="card_header mb-2">
                             <img th:if="${article.image != null}" th:src="${article.image.path}" class="card-img-top card_img" alt="article image">
                             <img th:unless="${article.image != null}" th:src="@{/images/no-image.png}" class="img-fluid" alt="no image">
-                            <a th:href="@{/categories/search/{id}(id=${article.category.id})}" th:text="${article.category.name}" class="px-3 category_custom text-white"></a>
+                            <a th:if="${article.category != null}" th:href="@{/categories/search/{id}(id=${article.category.id})}" th:text="${article.category.name}" class="px-3 category_custom text-white"></a>
+                            <!-- <a th:unless="${article.category != null}" class="px-3 no_category text-white"> No category</a> -->
                     </div>
 
                     <div class="card-body">
